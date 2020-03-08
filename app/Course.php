@@ -8,5 +8,6 @@ class Course extends Model
 {
     //
     protected $table = "courses";
+    protected $fillable = ['course_name'];
     public $timestamps = false;
 }
