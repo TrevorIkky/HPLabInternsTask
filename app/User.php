@@ -34,4 +34,8 @@ class User extends Authenticatable
      * @var array
      */
 
+     public function logInUser(){
+         
+     }
+
 }
