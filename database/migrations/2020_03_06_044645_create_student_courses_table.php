@@ -14,13 +14,13 @@ class CreateStudentCoursesTable extends Migration
     public function up()
     {
         Schema::create('student_courses', function (Blueprint $table) {
-            $table->increments('studentcourse_id');
+            $table->bigIncrements('studentcourse_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('course_id');
             
             //Foriegn key constraints
-           // $table->foreign('user_id')->references('user_id')->on('users');
-           // $table->foreign('course_id')->references('course_id')->on('courses');
+            $table->foreign('user_id')->references('user_id')->on('users');
+            $table->foreign('course_id')->references('course_id')->on('courses');
         });
     }
 

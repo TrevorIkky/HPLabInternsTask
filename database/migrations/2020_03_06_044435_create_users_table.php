@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('user_id');
             $table->string('name');
             $table->string('address');
             $table->string('email',50)->unique();
@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             //Foriegn key constraints
-           //$table->foreign('user_role_id')->references('role_id')->on('roles');
+           $table->foreign('user_role_id')->references('role_id')->on('roles');
         });
     }
 
