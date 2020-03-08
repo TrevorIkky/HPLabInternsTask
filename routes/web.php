@@ -23,4 +23,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logOut', 'LoginController@logOut');
 Route::post('/logIn', 'LoginController@logIn'); 
+Route::get('/chartdata', 'HomeController@getChartData');
+Route::get('/allstudents', 'HomeController@allStudents');
 

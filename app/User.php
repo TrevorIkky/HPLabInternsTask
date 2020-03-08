@@ -38,7 +38,7 @@ class User extends Authenticatable
      * @var array
      */
 
-    public function logInUser(Request $request)
+    public static function logInUser(Request $request)
     {
         $validateData = $request->validate([
             'email' => 'required|email',
@@ -46,7 +46,7 @@ class User extends Authenticatable
         ]);
 
         if ($validateData->fails()) {
-            return Redirect::to('login')->withErrors($validateData)->withInput(['email' => $request->get('email')]);
+            return Redirect::to('logIn')->withErrors($validateData)->withInput(['email' => $request->get('email')]);
         } else {
             if (Auth::attempt(['email' => $request->get('email'), 'password' => Hash::make($request->get('password'))]))
                 return true;
@@ -54,10 +54,20 @@ class User extends Authenticatable
         return false;
     }
 
-    public function logOut(){
+    public static function logOut()
+    {
         Auth::logout();
-        return redirect('/login');
+        return redirect('/logIn');
     }
 
-
+    public static  function getAllStudents()
+    {
+        $role = Role::where('role_name', 'student')->value('role_id');
+        if ($role) {
+            $students = User::where('user_role_id', $role)->get();
+            return $students;
+        } else {
+            return [];
+        }
+    }
 }
