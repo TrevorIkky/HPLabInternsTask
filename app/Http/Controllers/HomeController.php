@@ -39,4 +39,8 @@ class HomeController extends Controller
         $data = StudentCourse::getChartData();
         return response()->json($data);
     }
+
+    public function displayChart(){
+        return view('chart', ['chartdata'=>StudentCourse::getChartData()]);
+    }
 }

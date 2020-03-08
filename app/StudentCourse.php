@@ -17,7 +17,7 @@ class StudentCourse extends Model
         $courses = Course::all();
         foreach ($courses as $course) {
             $count = StudentCourse::where('course_id', $course->course_id)->count();
-            array_push($studentsPerCourse, [$course->course_name => $count]);
+            array_push($studentsPerCourse, array('course' => $course->course_name . '/' . $count));
             $totalCount = $totalCount + $count;
         }
         return ['totalStudents' => $totalCount, "countPerCourse" => $studentsPerCourse];
