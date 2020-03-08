@@ -21,6 +21,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/logOut', 'LoginController@logOut');
-Route::post('/logIn', 'LoginController@logIn'); 
+Route::get('/logOut', 'Auth\LoginController@logOut');
+Route::post('/logIn', 'Auth\LoginController@logIn'); 
 
+
+Route::resource('students','StudentsController');
