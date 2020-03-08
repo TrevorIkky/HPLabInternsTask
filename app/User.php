@@ -6,7 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class User extends Authenticatable
 {
@@ -18,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email','address', 'user_role_id', 'suspended', 'password',
+        'name', 'email', 'address', 'user_role_id', 'suspended', 'password',
     ];
 
     /**
@@ -36,15 +38,26 @@ class User extends Authenticatable
      * @var array
      */
 
-     public function logInUser(Request $request){
-         $validateData = $request->validate([
-             'email' => 'required|email',
-             'password' => 'required'
-         ]);
+    public function logInUser(Request $request)
+    {
+        $validateData = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-         if($validateData){
-             
-         }
-     }
+        if ($validateData->fails()) {
+            return Redirect::to('login')->withErrors($validateData)->withInput(['email' => $request->get('email')]);
+        } else {
+            if (Auth::attempt(['email' => $request->get('email'), 'password' => Hash::make($request->get('password'))]))
+                return true;
+        }
+        return false;
+    }
+
+    public function logOut(){
+        Auth::logout();
+        return redirect('/login');
+    }
+
 
 }
