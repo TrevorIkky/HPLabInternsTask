@@ -38,6 +38,8 @@ class User extends Authenticatable
      * @var array
      */
 
+    protected $primaryKey = 'user_id';
+
     public function logInUser(Request $request)
     {
         $validateData = $request->validate([
@@ -59,5 +61,10 @@ class User extends Authenticatable
         return redirect('/login');
     }
 
+    function StudentCourse(){
+	return $this->hasMany(\App\StudentCourse::class);
+
+    
+    }
 
 }
