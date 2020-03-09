@@ -39,12 +39,8 @@ class User extends Authenticatable
      */
 
     protected $primaryKey = 'user_id';
-<<<<<<< HEAD
-    public static function logInUser(Request $request)
-=======
 
     public function logInUser(Request $request)
->>>>>>> development
     {
         $validateData = $request->validate([
             'email' => 'required|email',
@@ -66,7 +62,6 @@ class User extends Authenticatable
         return redirect('/logIn');
     }
 
-<<<<<<< HEAD
     public static  function getAllStudents()
     {
         $role = Role::where('role_name', 'student')->value('role_id');
@@ -77,12 +72,10 @@ class User extends Authenticatable
             return [];
         }
     }
-=======
     function StudentCourse(){
 	return $this->hasMany(\App\StudentCourse::class);
 
     
     }
 
->>>>>>> development
 }

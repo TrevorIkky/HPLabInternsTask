@@ -21,16 +21,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-<<<<<<< HEAD
-Route::get('/logOut', 'LoginController@logOut');
-Route::post('/logIn', 'LoginController@logIn'); 
 Route::get('/chartdata', 'HomeController@getChartData');
 Route::get('/allstudents', 'HomeController@allStudents');
 Route::get('/displaychart', 'HomeController@displayChart');
-=======
 Route::get('/logOut', 'Auth\LoginController@logOut');
 Route::post('/logIn', 'Auth\LoginController@logIn'); 
->>>>>>> development
 
 
 Route::resource('students','StudentsController');
