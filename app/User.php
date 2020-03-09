@@ -37,7 +37,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-
+/*
     protected $primaryKey = 'user_id';
 
     public function logInUser(Request $request)
@@ -61,7 +61,7 @@ class User extends Authenticatable
         Auth::logout();
         return redirect('/logIn');
     }
-
+*/
     public static  function getAllStudents()
     {
         $role = Role::where('role_name', 'student')->value('role_id');
