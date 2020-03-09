@@ -123,8 +123,7 @@ class StudentsController extends Controller
                 'name' => 'required',
                 'address' => 'required',
                 'email' => 'required',
-                'course' => 'required',
-                'status' => 'requred'
+                'course' => 'required'
             ]
         );
 

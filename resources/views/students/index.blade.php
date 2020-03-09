@@ -1,19 +1,35 @@
 @extends('layouts.app')
+@section('styles')
+<style>
+  body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .main-container {
+    display: flex;
+    justify-content: center;
+
+  }
+</style>
+@endsection
 
 @section('content')
 <!-- content -->
 
 
 <div class="col-md-10 jumbotron side-menu">
-    <div class="row justify-content-center">
+   <div class="row justify-content-md-center" >
+    <!--<div class="row justify-content-center">-->
         <div class="col-md-10 p-0">
             
     <div class="container">
-        <div class="table-responsive">
+        <div class="table-responsive"  style="margin-left:14%">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">No.</th>
                         <th scope="col">Name</th>
                         <th scope="col">Address</th>
                         <th scope="col">Email</th>
@@ -128,7 +144,7 @@
             </div>
 
             <div class="col-md-12 p-2">
-                <div class="card">
+                <div class="card" style="margin-left:25%">
                     <div>
                         <button class='btn-outline-info btn-block btn-lg' data-toggle='modal'
                             data-target='#exampleModal2' type='submit'>Add student</button>
