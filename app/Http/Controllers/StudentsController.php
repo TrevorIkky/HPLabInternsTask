@@ -20,10 +20,10 @@ class StudentsController extends Controller
      */
     public function index()
     {
-	$students = User::where('user_role_id',1)->paginate(10);
-
-	return view('students.index')->with('students',$students);
-	
+        $students = User::where('user_role_id', 1)->paginate(5);
+        $courses = Course::all();
+        $courses = Course::pluck('course_name', 'course_id');
+        return view('students.index', compact('courses'))->with('students', $students);
     }
 
 
@@ -34,9 +34,9 @@ class StudentsController extends Controller
      */
     public function create()
     {
-	$courses = Course::all();
-	$c = Course::pluck('course_name','course_id');
-        return view('students.create')->with('courses',$c);
+        $courses = Course::all();
+        $c = Course::pluck('course_name', 'course_id');
+        return view('students.create')->with('courses', $c);
     }
 
     /**
@@ -47,31 +47,33 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
-	$this->validate( $request, [
-			'name' => 'required',
-			'address' => 'required',
-			'email' => 'required',
-			'course' => 'required',
-		]
-	);
+        $this->validate(
+            $request,
+            [
+                'name' => 'required',
+                'address' => 'required',
+                'email' => 'required',
+                'course' => 'required',
+            ]
+        );
 
-	$user = new User;
-	$user->name = $request->input('name');
-	$user->address = $request->input('address');
-	$user->email = $request->input('email');
-	$user->user_role_id = 1;
-	$user->password = '$2y$10$m84sgbtRI3eCBl.F0z6q5eAz5rNeNLAX7RG7RInA1WCz/DjvPKuzu';
-	$user->suspended = 0;
-	
-	$user->save();
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->address = $request->input('address');
+        $user->email = $request->input('email');
+        $user->user_role_id = 1;
+        $user->password = '$2y$10$m84sgbtRI3eCBl.F0z6q5eAz5rNeNLAX7RG7RInA1WCz/DjvPKuzu';
+        $user->suspended = 0;
 
-	
-	$student_course = new StudentCourse;
-	$student_course->user_id = $user->user_id;
-	$student_course->course_id = $request->input('course');
+        $user->save();
 
-	$student_course->save();
-	return redirect('/')->with('success','Student Created !');
+
+        $student_course = new StudentCourse;
+        $student_course->user_id = $user->user_id;
+        $student_course->course_id = $request->input('course');
+
+        $student_course->save();
+        return redirect('/')->with('success', 'Student Created !');
     }
 
     /**
@@ -82,8 +84,8 @@ class StudentsController extends Controller
      */
     public function show($id)
     {
-	$student = User::find($id);
-        return view('students.edit')->with('student',$student);
+        $student = User::find($id);
+        return view('students.edit')->with('student', $student);
     }
 
     /**
@@ -95,15 +97,15 @@ class StudentsController extends Controller
     public function edit($id)
     {
         $student = User::find($id);
-	$course_name = StudentCourse::with('User')->find($id);
-	//return $course_name;
-	$course = Course::find($course_name['course_id'])["course_name"];
-	//return $course;
+        $course_name = StudentCourse::with('User')->find($id);
+        //return $course_name;
+        $course = Course::find($course_name['course_id'])["course_name"];
+        //return $course;
 
-	$courses = Course::all();
-	$c = Course::pluck('course_name','course_id');
+        $courses = Course::all();
+        $c = Course::pluck('course_name', 'course_id');
 
-	return view('students.edit',compact('c','course','student'))->with('student',$student);
+        return view('students.edit', compact('c', 'course', 'student'))->with('student', $student);
     }
 
     /**
@@ -115,32 +117,39 @@ class StudentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        	$this->validate( $request, [
-			'name' => 'required',
-			'address' => 'required',
-			'email' => 'required',
-			'course' => 'required',
-		]
-	);
+        $this->validate(
+            $request,
+            [
+                'name' => 'required',
+                'address' => 'required',
+                'email' => 'required',
+                'course' => 'required',
+                'status' => 'requred'
+            ]
+        );
 
-	$user = User::find($id);
-	$user->name = $request->input('name');
-	$user->address = $request->input('address');
-	$user->email = $request->input('email');
-	$user->user_role_id = 1;
-	$user->password = '$2y$10$m84sgbtRI3eCBl.F0z6q5eAz5rNeNLAX7RG7RInA1WCz/DjvPKuzu';
-	$user->suspended = 0;
-	
-	$user->save();
+        $user = User::find($id);
+        $user->name = $request->input('name');
+        $user->address = $request->input('address');
+        $user->email = $request->input('email');
+        $user->user_role_id = 1;
+        $user->password = '$2y$10$m84sgbtRI3eCBl.F0z6q5eAz5rNeNLAX7RG7RInA1WCz/DjvPKuzu';
 
-	
-	$student_course = DB::table('student_courses')->where('user_id','=',$id)->get();
-	//return $student_course;
-	$student_course->course_id = $request->input('course');
+        if ($request->input('status') == '0')
+            $user->suspended = 0;
+        else {
+            $user->suspended = 1;
+        }
 
-	// $student_course->save();
-	return redirect('/')->with('success','Update success !');
-    
+        $user->save();
+
+
+        $student_course = DB::table('student_courses')->where('user_id', '=', $id)->get();
+        //return $student_course;
+        $student_course->course_id = $request->input('course');
+
+        // $student_course->save();
+        return redirect('/students')->with('success', 'Update success !');
     }
 
     /**
