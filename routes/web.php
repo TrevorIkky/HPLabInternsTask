@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/chartdata', 'HomeController@getChartData');
+Route::get('/allstudents', 'HomeController@allStudents');
+Route::get('/displaychart', 'HomeController@displayChart');
+Route::get('/logOut', 'Auth\LoginController@logOut');
+Route::post('/logIn', 'Auth\LoginController@logIn'); 
+
+
+Route::resource('students','StudentsController');
