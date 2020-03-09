@@ -38,10 +38,10 @@ class User extends Authenticatable
      * @var array
      */
 
-    protected $primaryKey = 'user_id';
 <<<<<<< HEAD
     public static function logInUser(Request $request)
 =======
+    protected $primaryKey = 'user_id';
 
     public function logInUser(Request $request)
 >>>>>>> development
